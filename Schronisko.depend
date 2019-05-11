@@ -1,0 +1,26 @@
+# depslib dependency file v1.0
+1557610578 source:/mnt/Dane/Programowanie/C++/Schronisko_2/Zwierzak.cpp
+	"Zwierzak.h"
+	<string.h>
+	<list>
+	<iostream>
+	<cstdlib>
+	<fstream>
+
+1557595417 /mnt/Dane/Programowanie/C++/Schronisko_2/Zwierzak.h
+	<iostream>
+	<stdio.h>
+	<string>
+	<list>
+	"Zwierzak.h"
+
+1557610606 source:/mnt/Dane/Programowanie/C++/Schronisko_2/main.cpp
+	<iostream>
+	<list>
+	<string>
+	<stdio.h>
+	<algorithm>
+	<cstdlib>
+	<fstream>
+	"Zwierzak.h"
+

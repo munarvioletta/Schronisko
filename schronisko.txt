@@ -1,0 +1,2 @@
+id: 2 imie: Mraek wiek w latach: 3 waga w kg: 5 czy szczepiony Tak - 1, Nie - 0: 0 notatka: KKKKKKKK
+id: 4 imie: Magda wiek w latach: 3 waga w kg: 4 czy szczepiony Tak - 1, Nie - 0: 0 notatka: MMMMMMMMMMM 
