@@ -5,22 +5,28 @@
 #include <algorithm>
 #include <cstdlib>
 #include <fstream>
+#include <math.h>
+#include <ctype.h>
+#include "Zwierzak.h"
 
 using namespace std;
 
-#include "Zwierzak.h"
 
 
-int opcja,x;
+
+int opcja = 0,x;
 int k;
 uint16_t n = 5; //rozmiar listy
+int nazwa,p;
+int ID;
 
 
 
 void wyswietlListe(list<Zwierzak> );
 string znajdzNaLiscie(list<Zwierzak>& , string);
 void usun_zwierze(list<Zwierzak>&, int ,Zwierzak);
-void zaladuj_plik(list<Zwierzak>&, Zwierzak &z);
+void zaladuj_plik(list<Zwierzak>&, Zwierzak& );
+Zwierzak edytuj(list<Zwierzak>&, int, Zwierzak&);
 
 
 int main() {
@@ -40,18 +46,22 @@ Zwierzak z;
  cout << "2. Wyswietl liste pacjentow" << endl;
  cout << "3. Czy lista pusta?" << endl;
  cout << "4. Rozmiar listy" << endl;
- cout << "5. Usun Pacjenta" << endl;
+ cout << "5. Usun zwierze" << endl;
+ cout << "6. Edytuj zwierze" << endl;
  cout << "9. Wyjdz z menu" << endl<<endl;
 
-
+if (opcja == 0)
+{
 zaladuj_plik(Lista_zwierzat,z);
 wyswietlListe(Lista_zwierzat);
+cout<<endl;
+}
 
 while (x != 9){
 
 
 
- cout<<"Wybierz opcje:";
+ cout<<"Wybierz opcje: ";
 
  cin >> opcja;
 
@@ -62,18 +72,27 @@ while (x != 9){
 
         case 1:
 
-            if(Lista_zwierzat.size()<= n){
-
-
-                z.dodaj();
+            if (Lista_zwierzat.empty()){
+                cout<<"Lista pusta,  dodaj zwierze"<<endl;
+                z.dodaj(ID);
                 Lista_zwierzat.push_back(z);
+            }
 
+            else if(Lista_zwierzat.size() < n &&  Lista_zwierzat.size() >= 1){
+
+
+            cout<<" Wprowadz ID: ";cin>>ID;
+
+            z.dodaj(ID);
+            Lista_zwierzat.push_back(z);
+            z.wyswietl();
 
             }
 
             else{
 
-                cout<<" Schronisko jest pełne"<<endl;
+                cout<<"Schronisko jest przepełnione"<<endl;
+
             }
 
 
@@ -109,7 +128,7 @@ while (x != 9){
                     cout<< "True"<<endl;
             }
             else {
-                    cout<<"False"<<" "<<" w liscie znajduje sie " <<Lista_zwierzat.size()<<" "<<"zierzat"<<endl;
+                    cout<<"False"<<" "<<" - w liscie znajduje sie " <<Lista_zwierzat.size()<<" "<<"zierzat"<<endl;
             }
 
 
@@ -126,7 +145,7 @@ while (x != 9){
 
         case 5:
 
-            cout<<"Usun zwierze o numerze id z listy:"<<" "<<endl;
+            cout<<"Usun zwierze o numerze id z listy: "<<endl;
 
             if(Lista_zwierzat.size()==0){
                 cout<<"Lista pusta"<<endl;
@@ -135,11 +154,105 @@ while (x != 9){
             else{
             wyswietlListe(Lista_zwierzat);
 
+            cout<<"id:  ";
             cin>>k;
             usun_zwierze(Lista_zwierzat, k, z);
 
             cout<<"Usunieto zwierze o numerze id:"<<" "<<k<<endl;
             }
+
+        break;
+
+
+        case 6:
+
+            cout<<"Edytuj zwierze o numerze id :"<<" "<<endl;
+
+            if(Lista_zwierzat.size()==0){
+                cout<<"Lista pusta"<<endl;
+            }
+
+            else{
+
+            cin>>nazwa;
+
+            edytuj(Lista_zwierzat, nazwa, z);
+
+            cout<<"id"<<z.id<<endl;
+
+            z.wyswietl();
+
+            cout<<"Wprowadz numer od edycji"<<endl;
+            cout << "1. Zmien imie" << endl;
+            cout << "2. Zmien wiek w latach" << endl;
+            cout << "3. Zmien wage w kg" << endl;
+            cout << "4. Zmien czy zasczepiony Tak - 1, nie- 0" << endl;
+            cout << "5. Zmien notatke" << endl;
+
+            cin>>p;
+
+            switch(p){
+
+                case 1:
+                     cout<<"Imie: ";
+                     cin>>z.imie;
+                     usun_zwierze(Lista_zwierzat, z.id, z);
+                     Lista_zwierzat.push_back(z);
+                     z.wyswietl();
+
+
+                break;
+
+
+                case 2:
+                     cout<<"wiek: ";
+                     cin>>z.wiek;
+                     usun_zwierze(Lista_zwierzat, z.id, z);
+                     Lista_zwierzat.push_back(z);
+                     z.wyswietl();
+                     z.zapisz_do_pliku();
+
+                break;
+
+
+
+                case 3:
+
+                     cout<<"waga: ";
+                     cin>>z.waga;
+                     usun_zwierze(Lista_zwierzat, z.id, z);
+                     Lista_zwierzat.push_back(z);
+                     z.wyswietl();
+
+                break;
+
+
+
+                case 4:
+
+                     cout<<"szczepiony: ";
+                     cin>>z.szczepiony;
+                     usun_zwierze(Lista_zwierzat, z.id, z);
+                     Lista_zwierzat.push_back(z);
+                     z.wyswietl();
+
+                break;
+
+
+
+                case 5:
+                     cout<<"notatka: ";
+                     getline(cin, z.notatka, '0');
+                     z.notatka.erase(0,1);
+                     usun_zwierze(Lista_zwierzat, z.id, z);
+                     Lista_zwierzat.push_back(z);
+                     z.wyswietl();
+
+                break;
+
+            }
+
+          }
 
         break;
 
@@ -215,55 +328,55 @@ void zaladuj_plik(list<Zwierzak>& Lista_zwierzat, Zwierzak &z){
             case 1:
 
                     z.id = static_cast<int>(linia[4]-48);
-                    z.imie = linia.substr(12,6);
-                    z.wiek = static_cast<int>(linia[33]-48);
-                    z.waga = static_cast<int>(linia[46]-48);
+                    z.imie = linia.substr(12,5);
+                    z.wiek = static_cast<int>(linia[33]-47);
+                    z.waga = static_cast<int>(linia[46]-47);
                     z.szczepiony = static_cast<int>(linia[81]-48);
-                    z.notatka = linia.substr(92,5);
+                    z.notatka = linia.substr(92,30);
                     Lista_zwierzat.push_front(z);
             break;
 
             case 2:
 
                     z.id = static_cast<int>(linia[4]-48);
-                    z.imie = linia.substr(12,6);
-                    z.wiek = static_cast<int>(linia[33]-48);
-                    z.waga = static_cast<int>(linia[46]-48);
+                    z.imie = linia.substr(12,5);
+                    z.wiek = static_cast<int>(linia[33]-47);
+                    z.waga = static_cast<int>(linia[46]-47);
                     z.szczepiony = static_cast<int>(linia[81]-48);
-                    z.notatka = linia.substr(92,10);
+                    z.notatka = linia.substr(92,30);
                     Lista_zwierzat.push_front(z);
             break;
 
             case 3:
 
                     z.id = static_cast<int>(linia[4]-48);
-                    z.imie = linia.substr(12,6);
-                    z.wiek = static_cast<int>(linia[33]-48);
-                    z.waga = static_cast<int>(linia[46]-48);
+                    z.imie = linia.substr(12,5);
+                    z.wiek = static_cast<int>(linia[33]-47);
+                    z.waga = static_cast<int>(linia[46]-47);
                     z.szczepiony = static_cast<int>(linia[81]-48);
-                    z.notatka = linia.substr(92,10);
+                    z.notatka = linia.substr(92,30);
                     Lista_zwierzat.push_front(z);
             break;
 
             case 4:
 
                     z.id = static_cast<int>(linia[4]-48);
-                    z.imie = linia.substr(12,6);
-                    z.wiek = static_cast<int>(linia[33]-48);
-                    z.waga = static_cast<int>(linia[46]-48);
+                    z.imie = linia.substr(12,5);
+                    z.wiek = static_cast<int>(linia[33]-47);
+                    z.waga = static_cast<int>(linia[46]-47);
                     z.szczepiony = static_cast<int>(linia[81]-48);
-                    z.notatka = linia.substr(92,10);
+                    z.notatka = linia.substr(92,30);
                     Lista_zwierzat.push_front(z);
             break;
 
             case 5:
 
                     z.id = static_cast<int>(linia[4]-48);
-                    z.imie = linia.substr(12,6);
-                    z.wiek = static_cast<int>(linia[33]-48);
-                    z.waga = static_cast<int>(linia[46]-48);
+                    z.imie = linia.substr(12,5);
+                    z.wiek = static_cast<int>(linia[33]-47);
+                    z.waga = static_cast<int>(linia[46]-47);
                     z.szczepiony = static_cast<int>(linia[81]-48);
-                    z.notatka = linia.substr(92,10);
+                    z.notatka = linia.substr(92,30);
                     Lista_zwierzat.push_front(z);
             break;
 
@@ -279,11 +392,13 @@ void zaladuj_plik(list<Zwierzak>& Lista_zwierzat, Zwierzak &z){
 
 }
 
-string znajdzNaLiscie(list<Zwierzak>& z, string k){
+Zwierzak edytuj(list<Zwierzak> &Lista_zwierzat, int k, Zwierzak& z){
 
 
     list<Zwierzak>::iterator it;
-    it = find_if(z.begin(), z.end(), [&k](const Zwierzak& a){ return a.imie == k; }  );
-    return it -> notatka;
+    it = find_if(Lista_zwierzat.begin(), Lista_zwierzat.end(), [&k](const Zwierzak& a){return a.id == k;} );
+
+    return z = *it;
+
 
 }

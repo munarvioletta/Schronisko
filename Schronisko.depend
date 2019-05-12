@@ -24,3 +24,30 @@
 	<fstream>
 	"Zwierzak.h"
 
+1557690570 source:/mnt/Dane/Programowanie/C++/Schronisko/main.cpp
+	<iostream>
+	<list>
+	<string>
+	<stdio.h>
+	<algorithm>
+	<cstdlib>
+	<fstream>
+	<math.h>
+	<ctype.h>
+	"Zwierzak.h"
+
+1557683073 /mnt/Dane/Programowanie/C++/Schronisko/Zwierzak.h
+	<iostream>
+	<stdio.h>
+	<string>
+	<list>
+	"Zwierzak.h"
+
+1557689448 source:/mnt/Dane/Programowanie/C++/Schronisko/Zwierzak.cpp
+	"Zwierzak.h"
+	<string.h>
+	<list>
+	<iostream>
+	<cstdlib>
+	<fstream>
+

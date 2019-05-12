@@ -14,28 +14,25 @@ class Zwierzak
 
     public:
 
-        string imie;
-        int id;
-        int wiek;
-        int waga;
-        bool szczepiony;
-        string notatka;
+    string imie;
+    int id;
+    int wiek;
+    int waga;
+    bool szczepiony;
+    string notatka;
 
 
-//      Zwierzak();
-
-      Zwierzak(int = 1, string = "Boni", int = 2, int = 3, bool = 0, string = "brak uwag");
+    Zwierzak(int = 1, string = "Boni", int = 2, int = 3, bool = 0, string = "brak uwag");
 
 
-      virtual ~Zwierzak();
+    virtual ~Zwierzak();
 
 
-      void dodaj();
+    void dodaj(int);
+    void wyswietl();
+    void zapisz_do_pliku();
 
-        // bool adoptuj();
-      void edytuj();
-      void wyswietl();
-
+    // bool adoptuj();
         // void wyszukaj();
 
 };
